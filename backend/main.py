@@ -106,15 +106,15 @@ async def get_products(db: Session = Depends(get_db)):
     """Get all products"""
     try:
         from database import Product
-        products = db.query(Product).all()
+        products = db.query(Product).limit(100).all()  # Limit to prevent overwhelming response
         return [
             ProductResponse(
-                product_id=product.product_id,
-                product_name=product.product_name,
+                product_id=str(product.id),
+                product_name=product.name,
                 category=product.category,
-                price=product.price,
-                stock_quantity=product.stock_quantity,
-                description=product.description
+                price=product.retail_price,
+                stock_quantity=0,  # Will be calculated dynamically
+                description=f"{product.brand} - {product.department}"
             )
             for product in products
         ]
@@ -154,6 +154,28 @@ async def get_product_stock(product_name: str, db: Session = Depends(get_db)):
     except Exception as e:
         print(f"Error getting product stock: {e}")
         raise HTTPException(status_code=500, detail="Failed to retrieve product information")
+
+@app.get("/api/analytics/sales")
+async def get_sales_analytics(db: Session = Depends(get_db)):
+    """Get sales analytics"""
+    try:
+        business_logic = BusinessLogicService(db)
+        analytics = business_logic.get_sales_analytics()
+        return analytics
+    except Exception as e:
+        print(f"Error getting sales analytics: {e}")
+        raise HTTPException(status_code=500, detail="Failed to retrieve analytics")
+
+@app.get("/api/products/low-stock")
+async def get_low_stock_products(threshold: int = 10, db: Session = Depends(get_db)):
+    """Get products with low stock"""
+    try:
+        business_logic = BusinessLogicService(db)
+        products = business_logic.get_low_stock_products(threshold)
+        return {"products": products}
+    except Exception as e:
+        print(f"Error getting low stock products: {e}")
+        raise HTTPException(status_code=500, detail="Failed to retrieve low stock products")
 
 @app.get("/api/conversations")
 async def get_conversations(db: Session = Depends(get_db)):
