@@ -8,9 +8,12 @@ A full-stack intelligent customer support chatbot for an e-commerce clothing web
 - **Product Management**: Query products, check stock levels, view top sellers
 - **Order Tracking**: Check order status and tracking information
 - **Real-time Chat**: Modern React frontend with real-time messaging
+- **Conversation History**: View and manage past conversations with persistent storage
+- **State Management**: Centralized state management using React Context API
 - **Database Integration**: PostgreSQL with SQLAlchemy ORM
 - **Containerized**: Full Docker support with Docker Compose
 - **RESTful API**: Complete FastAPI backend with automatic documentation
+- **Mobile Responsive**: Works seamlessly on desktop and mobile devices
 
 ## 🛠️ Tech Stack
 
@@ -71,10 +74,23 @@ Place your CSV files in the `backend/data/` directory:
 
 ```bash
 # Start all services
-docker-compose up --build
+docker compose up --build
 
 # Or run in detached mode
-docker-compose up -d --build
+docker compose up -d --build
+```
+
+### 5. Verify Docker Setup
+
+```bash
+# Check if all services are running
+docker compose ps
+
+# View logs to ensure everything started correctly
+docker compose logs
+
+# Test the application
+curl http://localhost:8000/health
 ```
 
 ### 5. Access the Application
@@ -156,6 +172,26 @@ npm start
 ### Conversation Endpoints
 - **GET** `/api/conversations` - Get recent conversations
 
+## 🎯 Frontend Features
+
+### State Management
+- **Context API**: Centralized state management for messages, loading states, and user input
+- **Persistent Storage**: Conversations are automatically saved to localStorage
+- **Real-time Updates**: Instant UI updates with proper loading indicators
+
+### Conversation History
+- **Side Panel**: Dedicated conversation history panel with conversation previews
+- **Click to Load**: Click any past conversation to reload its full history
+- **Smart Timestamps**: Intelligent date formatting (Today, Yesterday, or date)
+- **Delete Conversations**: Remove unwanted conversation history
+- **Mobile Responsive**: Collapsible sidebar for mobile devices
+
+### User Experience
+- **Loading States**: Visual feedback during API calls
+- **Error Handling**: Graceful error messages for failed requests
+- **Markdown Support**: Rich text formatting in chat messages
+- **Quick Actions**: Pre-defined action buttons for common queries
+
 ## 💬 Example Conversations
 
 ### Product Queries
@@ -183,19 +219,26 @@ Bot: "I can help you with product information, order tracking, stock levels..."
 
 ```bash
 # Build and start all services
-docker-compose up --build
+docker compose up --build
 
 # Start in detached mode
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop all services
-docker-compose down
+docker compose down
 
 # Stop and remove volumes
-docker-compose down -v
+docker compose down -v
+
+# View service status
+docker compose ps
+
+# Rebuild specific service
+docker compose build backend
+docker compose build frontend
 ```
 
 ## 🔍 Troubleshooting
@@ -222,13 +265,16 @@ docker-compose down -v
 
 ```bash
 # Backend logs
-docker-compose logs backend
+docker compose logs backend
 
 # Frontend logs
-docker-compose logs frontend
+docker compose logs frontend
 
 # Database logs
-docker-compose logs postgres
+docker compose logs postgres
+
+# All logs
+docker compose logs -f
 ```
 
 ## 🤝 Contributing
