@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: ecommerce_postgres
+    environment:
+      POSTGRES_DB: ecommerce_chatbot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - chatbot_network
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: ecommerce_backend
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/ecommerce_chatbot
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend/data:/app/data
+    networks:
+      - chatbot_network
+    restart: unless-stopped
+
+  # Frontend Application
+  frontend:
+    build: ./frontend
+    container_name: ecommerce_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    networks:
+      - chatbot_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  chatbot_network:
+    driver: bridge 

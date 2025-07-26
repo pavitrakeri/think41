@@ -1,0 +1,11 @@
+product_id,product_name,category,price,stock_quantity,description
+P001,Classic T-Shirt,T-Shirts,29.99,50,Comfortable cotton t-shirt in various colors
+P002,Premium Hoodie,Hoodies,59.99,30,Soft fleece hoodie with kangaroo pocket
+P003,Denim Jeans,Jeans,79.99,25,Classic blue denim jeans with perfect fit
+P004,Casual Dress,Dresses,89.99,20,Elegant casual dress for everyday wear
+P005,Sports Jacket,Jackets,129.99,15,Lightweight sports jacket for outdoor activities
+P006,Formal Shirt,Shirts,49.99,40,Professional formal shirt for business wear
+P007,Summer Shorts,Shorts,34.99,35,Comfortable cotton shorts for summer
+P008,Winter Sweater,Sweaters,69.99,28,Warm wool sweater for cold weather
+P009,Leather Jacket,Jackets,199.99,10,Premium leather jacket with classic design
+P010,Skirt,Skirts,44.99,22,Elegant skirt suitable for office and casual wear 
